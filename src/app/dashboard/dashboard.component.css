@@ -13,8 +13,8 @@
   --radius: 12px;
 }
 
+/* Reset and Layout */
 * { box-sizing: border-box; }
-
 body {
   margin: 0;
   padding: 24px;
@@ -25,6 +25,7 @@ body {
 
 section { margin: 16px 0; }
 
+/* Button & Controls */
 button {
   cursor: pointer;
   padding: 8px 14px;
@@ -34,7 +35,7 @@ button {
   transition: all .15s ease;
 }
 
-/* Status Button Logic */
+/* Specific Status Button Logic */
 #zooStatusBtn[data-status="open"] {
   background: var(--ok-bg);
   border-color: var(--ok-br);
@@ -45,23 +46,19 @@ button {
   border-color: var(--bad-br);
 }
 
-.zoo-status-container, .visitor-counter-container {
-  display: inline-block;
-  margin-right: 15px;
-  vertical-align: middle;
-}
-
+/* Visitor Counter Output */
 #visitorCount {
   display: inline-block;
   min-width: 2.2ch;
-  text-align: center;
   padding: 6px 10px;
   margin: 0 6px;
   border-radius: 999px;
   border: 1px solid var(--border);
   background: #fff;
+  text-align: center;
 }
 
+/* Cards & Grid */
 #animalCards {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
@@ -81,6 +78,7 @@ button {
   gap: 8px;
 }
 
+/* Form Layouts */
 .field {
   display: grid;
   gap: 6px;
@@ -99,6 +97,22 @@ input, select {
   gap: 8px;
   margin-top: 10px;
 }
+.zoo-status-container, .visitor-counter-container {
+  display: inline-block;
+  margin-right: 15px;
+  vertical-align: middle;
+}
 
-.msg { margin: 8px 0; font-size: 0.9rem; }
-.err { color: #dc2626; }
+#zooStatusBtn[data-status="open"] { background: var(--ok-bg); border-color: var(--ok-br); }
+#zooStatusBtn[data-status="closed"] { background: var(--bad-bg); border-color: var(--bad-br); }
+
+#visitorCount {
+  display: inline-block;
+  min-width: 2.2ch;
+  text-align: center;
+  padding: 6px 10px;
+  margin: 0 6px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: #fff;
+}

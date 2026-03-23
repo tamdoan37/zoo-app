@@ -1,0 +1,26 @@
+[
+    {
+        "name": "Animal exhibits",
+        "type": "exhibit",
+        "lat": 34.0723,
+        "lon": -118.1250
+    },
+    {
+        "name": "Visitor information kiosks",
+        "type": "visitor",
+        "lat": 34.0730,
+        "lon": -118.1245
+    },
+    {
+        "name": "Emergency services locations",
+        "type": "emergency",
+        "lat": 34.0728,
+        "lon": -118.1246
+    },
+    {
+        "name": "Maintenance stations",
+        "type": "maintenance",
+        "lat": 34.0719,
+        "lon": -118.1260
+    }
+]

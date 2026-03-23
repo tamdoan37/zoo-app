@@ -1,0 +1,65 @@
+[
+  {
+    "id": 1,
+    "name": "Ellie",
+    "species": "Elephant",
+    "status": "open",
+    "health": "Good",
+    "location": {
+      "latitude": 34.0722,
+      "longitude": -118.1254
+    },
+    "feeding schedule": {
+      "time": "4:00 PM",
+      "notes": "Grass and fruit"
+    },
+    "maintenance record": [
+      {
+        "date": "2025-11-16",
+        "notes": "Annual checkup"
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "name": "Rajah",
+    "species": "Tiger",
+    "status": "closed",
+    "health": "Fair",
+    "location": {
+      "latitude": 34.073,
+      "longitude": -118.1245
+    },
+    "feeding schedule": {
+      "time": "5:00 PM",
+      "notes": "New York Steak, 10 lbs"
+    },
+    "maintenance record": [
+      {
+        "date": "2025-11-15",
+        "notes": "Claw trimming, medication"
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "name": "Bao",
+    "species": "Panda",
+    "status": "open",
+    "health": "Excellent",
+    "location": {
+      "latitude": 34.0725,
+      "longitude": -118.1239
+    },
+    "feeding schedule": {
+      "time": "3:00 PM",
+      "notes": "Preminum Bamboo, 15 lbs"
+    },
+    "maintenance record": [
+      {
+        "date": "2025-11-9",
+        "notes": "Habitat inspection, health check"
+      }
+    ]
+  }
+]

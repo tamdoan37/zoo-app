@@ -1,0 +1,193 @@
+<h1>NTC Zoo Management</h1>
+<p id="status" class="msg" aria-live="polite">
+  {{ zooStatus() === 'open' ? 'Zoo is Open' : 'Zoo is Closed' }}
+</p>
+
+<section>
+  <div class="zoo-status-container">
+    <button id="zooStatusBtn" [attr.data-status]="zooStatus()" (click)="toggleZooStatus()">
+      {{ zooStatus() === 'open' ? 'Open' : 'Closed' }}
+    </button>
+  </div>
+
+  <div class="visitor-counter-container">
+    <button id="visitorMinus" (click)="updateVisitors('decrement')">-</button>
+    <output id="visitorCount">{{ visitorCount() }}</output>
+    <button id="visitorPlus" (click)="updateVisitors('increment')">+</button>
+  </div>
+</section>
+
+<section class="card">
+  <h3>Updates</h3>
+  <button id="notifyBtn">Enable Notifications</button>
+</section>
+
+<p id="loading-state" class="msg"></p>
+<p id="error-display" class="msg err"></p>
+
+<section>
+  <h2>Zoo Services</h2>
+  <button id="geoBtn">Get Your Location</button>
+  <div id="locationGrid"
+    style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px;">
+    @for (loc of locations(); track loc.name) {
+    <div class="card">
+      <h3>{{ loc.name }}</h3>
+      <p><strong>Type:</strong> {{ loc.type }}</p>
+      <p><small>Location: {{ loc.lat }}, {{ loc.lon }}</small></p>
+    </div>
+    }
+  </div>
+
+</section>
+
+<section>
+  <h2>Local Storage</h2>
+  <div class="formCard">
+    <div class="field">
+      <label for="animalSpecies">Species</label>
+      <input id="animalSpecies" name="animalSpecies" [(ngModel)]="localAnimal.species">
+    </div>
+    <div class="field">
+      <label for="animalHabitat">Habitat</label>
+      <input id="animalHabitat" name="animalHabitat" [(ngModel)]="localAnimal.habitat">
+    </div>
+    <div class="field">
+      <label for="animalAge">Age</label>
+      <input id="animalAge" name="animalAge" type="number" [(ngModel)]="localAnimal.age">
+    </div>
+    <div class="actions">
+      <button id="saveAnimalBtn" (click)="saveLocal()">Save Animal</button>
+      <button id="loadAnimalsBtn" (click)="loadLocal()">Load Animals</button>
+      <button id="clearStorageBtn" (click)="clearLocal()">Clear Storage</button>
+    </div>
+  </div>
+  <p id="localOutput" class="msg">{{ storageMsg() }}</p>
+</section>
+
+<section>
+  <button id="sessionBtn" (click)="updateSessionCounter()">Check Session</button>
+  <div id="sessionOutput" class="msg">Page Loads: {{ pageLoads() }}</div>
+</section>
+
+<section>
+  <h2>Animals</h2>
+  <div id="animalCards">
+    @for (animal of animals(); track animal.id) {
+    <div class="card">
+      <h3>{{ animal.name }} ({{ animal.species }})</h3>
+
+      <p><strong>Health:</strong> {{ animal.health }}</p>
+
+      <p>
+        <strong>Feeding:</strong>
+        {{ animal['feeding schedule']?.time }} — {{ animal['feeding schedule']?.notes }}
+      </p>
+<p>
+  <strong>Location:</strong> 
+  {{ animal.location.latitude }}, {{ animal.location.longitude }}
+</p>
+    </div>
+    }
+  </div>
+</section>
+
+<section>
+  <h2>Add New Animal</h2>
+  <form id="addAnimalForm" (ngSubmit)="onAddAnimal()">
+    <div class="field">
+      <label for="a_name">Animal Name</label>
+      <input id="a_name" name="a_name" [(ngModel)]="newAnimal.a_name" type="text" required>
+    </div>
+    <div class="field">
+      <label for="a_contact">Zoo keeper Email</label>
+      <input id="a_contact" name="a_contact" [(ngModel)]="newAnimal.a_contact" type="email" required>
+    </div>
+    <div class="field">
+      <label for="a_phone">Zoo keeper Phone</label>
+      <input id="a_phone" name="a_phone" [(ngModel)]="newAnimal.a_phone" type="tel" required>
+    </div>
+    <button type="submit" id="submitAnimal">Add Animal</button>
+  </form>
+  <p id="form-status" class="msg">{{ formStatusMsg() }}</p>
+</section>
+
+<section>
+  <h2>Membership Registration</h2>
+  <p id="membershipMsg" class="msg">{{ membershipMsg() }}</p>
+  <form id="membershipForm" class="formCard" (ngSubmit)="onMembership()">
+    <div class="field">
+      <label for="m_name">Member name *</label>
+      <input id="m_name" name="m_name" [(ngModel)]="memberData.m_name" required>
+    </div>
+    <div class="field">
+      <label for="m_email">Email *</label>
+      <input id="m_email" name="m_email" [(ngModel)]="memberData.m_email" type="email" required>
+    </div>
+    <div class="field">
+      <label for="m_type">Membership type</label>
+      <select id="m_type" name="m_type" [(ngModel)]="memberData.m_type" required>
+        <option value="">Select type</option>
+        <option value="Individual">Individual</option>
+        <option value="Family">Family</option>
+        <option value="Senior">Senior</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="m_start">Start date *</label>
+      <input id="m_start" name="m_start" [(ngModel)]="memberData.m_start" type="date" required>
+    </div>
+    <div class="field">
+      <label for="m_emg_name">Emergency contact (name)</label>
+      <input id="m_emg_name" name="m_emg_name" [(ngModel)]="memberData.m_emg_name">
+    </div>
+    <div class="field">
+      <label for="m_emg_phone">Emergency contact (phone)</label>
+      <input id="m_emg_phone" name="m_emg_phone" [(ngModel)]="memberData.m_emg_phone">
+    </div>
+    <div class="actions">
+      <button type="submit">Create membership</button>
+      <button type="reset">Reset</button>
+    </div>
+  </form>
+</section>
+
+<section>
+  <h2>Animal Encounter Booking</h2>
+  <p id="bookingMsg" class="msg">{{ bookingMsg() }}</p>
+  <form id="bookingForm" class="formCard" (ngSubmit)="onBooking()">
+    <div class="field">
+      <label for="b_name">Visitor name *</label>
+      <input id="b_name" name="b_name" [(ngModel)]="bookingData.b_name" required>
+    </div>
+    <div class="field">
+      <label for="b_email">Email *</label>
+      <input id="b_email" name="b_email" [(ngModel)]="bookingData.b_email" type="email" required>
+    </div>
+    <div class="field">
+      <label for="b_phone">Phone *</label>
+      <input id="b_phone" name="b_phone" [(ngModel)]="bookingData.b_phone" type="tel" required>
+    </div>
+    <div class="field">
+      <label for="b_animal">Selected animal *</label>
+      <select id="b_animal" name="b_animal" [(ngModel)]="bookingData.b_animal" required>
+        <option value="">Select an animal</option>
+        <option value="Ellie">Ellie (Elephant)</option>
+        <option value="Rajah">Rajah (Tiger)</option>
+        <option value="Bao">Bao (Panda)</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="b_when">Preferred date/time *</label>
+      <input id="b_when" name="b_when" [(ngModel)]="bookingData.b_when" type="datetime-local" required>
+    </div>
+    <div class="field">
+      <label for="b_group">Group size (1–50) *</label>
+      <input id="b_group" name="b_group" [(ngModel)]="bookingData.b_group" type="number" min="1" max="50" required>
+    </div>
+    <div class="actions">
+      <button type="submit">Book encounter</button>
+      <button type="reset">Reset</button>
+    </div>
+  </form>
+</section>
