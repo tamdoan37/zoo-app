@@ -1,24 +1,44 @@
 import { Component, OnInit, signal, inject, PLATFORM_ID } from '@angular/core';
-import { isPlatformBrowser, CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { isPlatformBrowser, CommonModule, AsyncPipe } from '@angular/common';import { FormsModule } from '@angular/forms';
 import { ZooService } from '../services/zoo.service';
 import { Animal, Location, Booking, Member } from '../models/zoo.models';
-
+// material imports for desgin
+import { MatIconModule } from '@angular/material/icon';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { Observable } from 'rxjs';
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, FormsModule],
-  templateUrl: './dashboard.component.html',
+imports: [
+    CommonModule, 
+    FormsModule, 
+    AsyncPipe, 
+    MatCardModule, 
+    MatButtonModule, 
+    MatToolbarModule, 
+    MatInputModule, 
+    MatFormFieldModule, 
+    MatSelectModule,
+    MatIconModule
+  ],  templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
-  private zooService = inject(ZooService);
+  public zooService = inject(ZooService); // access the RxJS streams directly.
   private platformId = inject(PLATFORM_ID);
 
   // State Signals
-  animals = signal<Animal[]>([]);
-  locations = signal<Location[]>([]);
-  visitorCount = signal(0);
+  // RxJS Observable for Animals
+  animals$!: Observable<Animal[]>;
+  //animals = signal<Animal[]>([]);
+  //locations = signal<Location[]>([]);
+  visitorCount$ = this.zooService.visitorCount$;
+  //visitorCount = signal(0);
   pageLoads = signal(0);
   zooStatus = signal<'open' | 'closed'>('open');
   selectedLocation = signal<Location | null>(null);
@@ -41,15 +61,16 @@ export class DashboardComponent implements OnInit {
     m_start: '', m_emg_name: '', m_emg_phone: ''
   };
 
-  // 4. Booking Form Model for all teh fields in index.html
+  // Booking Form Model for all teh fields in index.html
   bookingData = {
     b_name: '', b_email: '', b_phone: '', 
     b_animal: '', b_when: '', b_group: 1
   };
 
   ngOnInit() {
-    this.zooService.getAnimals().subscribe(data => this.animals.set(data));
-    this.zooService.getLocations().subscribe(data => this.locations.set(data));
+    this.animals$ = this.zooService.getAnimals(); // assing the RxJ dircetly
+    //this.zooService.getAnimals().subscribe(data => this.animals.set(data));
+    //this.zooService.getLocations().subscribe(data => this.locations.set(data));
     if (isPlatformBrowser(this.platformId)) {
       this.updateSessionCounter();
     }
@@ -59,10 +80,9 @@ export class DashboardComponent implements OnInit {
     this.zooStatus.update(s => s === 'open' ? 'closed' : 'open');
   }
 
-  updateVisitors(action: 'increment' | 'decrement') {
-    this.zooService.updateVisitors(action).subscribe(res => {
-      this.visitorCount.set(res.count);
-    });
+updateVisitors(action: 'increment' | 'decrement') {
+    // Now it uses the live RxJS stream from your service!
+    this.zooService.updateVisitorsRx(action);
   }
 
   updateSessionCounter() {

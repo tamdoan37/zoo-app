@@ -16,7 +16,7 @@ app.use(cors({
     // ADDED localhost:4200 for Angular
     origin: ['http://127.0.0.1:4200', 'http://localhost:4200', 'http://localhost:3000'], 
     credentials: true,
-    allowedHeaders: ['Content-Type', 'X-CSRF-Token'] // Add this line!
+    allowedHeaders: ['Content-Type', 'X-CSRF-Token'] 
 }));
 
 app.use(helmet({
